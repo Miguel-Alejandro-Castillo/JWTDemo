@@ -69,7 +69,12 @@ Servicio que sirve para registrar un usuario
 
 
 ### Requisitos para la instalacion de la aplicacion backend
-##### Java 1.8
-##### Spring Boot 2.7.17
+* Java 1.8
+* Spring Boot 2.7.17
+
+### Comandos para construir y levantar en local
+
+* mvn clean install -DskipTests
+* mvn spring-boot:run
 
 
