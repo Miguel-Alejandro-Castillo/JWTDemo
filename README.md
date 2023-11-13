@@ -4,13 +4,16 @@ Implementacion de Login con JWT
 
 ### Documentacion servicios REST de la aplicacion
 POST /users/login HTTP 
-Servicio que sirve para auntenticar un usuario mediante email y password
-Request:
+Servicio que sirve para auntenticar un usuario mediante email y password 
+#### Request:
+```json
 {
     "email": "miguel@gmail.com",
     "password": "1234"
 }
-Response:
+```
+#### Response:
+```json
 {
 	"id": 1,
 	"name": "India",
@@ -22,10 +25,12 @@ Response:
 	"token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJEZW1vSldUIiwic3ViIjoibWlndWVsQGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjpbXSwiaWF0IjoxNjk5ODg4NTgwLCJleHAiOjE2OTk4ODk0ODB9.rNyijA3ZLNMbR6qGDhxHZCqJBj98I0nXWyppWDwKaLp_fSdtml9eo_ItYOYKbJ9-A-yOCzxEc0elO5rze0wsYg",
 	"phones": []
 }
+```
 
 POST /users/sign-up HTTP 
 Servicio que sirve para registrar un usuario
-Request:
+#### Request:
+```json
 {
 	"name": "usuario1",
 	"email": "miguel@gmail.com.ar",
@@ -38,7 +43,9 @@ Request:
 		}
 	]
 }
-Response:
+```
+#### Response:
+```json
 {
 	"id": 2,
 	"name": "usuario1",
@@ -57,11 +64,12 @@ Response:
 		}
 	]
 }
+```
 
 
 
 ### Requisitos para la instalacion de la aplicacion backend
-Java 1.8
-Spring Boot 2.7.17
+##### Java 1.8
+##### Spring Boot 2.7.17
 
 
