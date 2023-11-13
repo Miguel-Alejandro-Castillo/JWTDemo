@@ -44,7 +44,9 @@ public class UsersController {
         if (user != null) {
             if (user.getIsActive()) {
                 UserDTO userDTO = this.usersService.mapTo(user);
-                userDTO = this.jwtService.getToken(userDTO);
+                //userDTO = this.jwtService.getToken(userDTO);
+                String token = this.jwtService.createToken(userDTO);
+                userDTO.setToken(token);
                 userDTO.setLastLogin(LocalDateTime.now());
                 userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
                 return ResponseEntity.ok(userDTO);
@@ -63,6 +65,9 @@ public class UsersController {
         if (this.usersService.findByEmail(user.getEmail()) == null) {
             user = this.usersService.save(user);
             UserDTO response = this.usersService.mapTo(user);
+            //response = this.jwtService.getToken(response);
+            String token = this.jwtService.createToken(response);
+            response.setToken(token);
             response.setPassword(passwordEncoder.encode(response.getPassword()));
             return ResponseEntity.ok(response);
         } else {
