@@ -32,10 +32,6 @@ public class UsersService {
         return this.modelMapper.map(user, UserDTO.class);
     }
 
-    public User findById(Long id) {
-        return this.userRepository.findById(id).orElseThrow();
-    }
-
     public User findByEmailAndPassword(String email, String password) {
         User user = this.userRepository.findByEmailAndPassword(email, password).orElse(null);
         return user;

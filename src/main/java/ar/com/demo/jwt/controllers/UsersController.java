@@ -14,6 +14,7 @@ import ar.com.demo.jwt.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
@@ -32,6 +33,9 @@ public class UsersController {
     @Autowired
     private JWTService jwtService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PostMapping("/login")
     @ResponseStatus(value = HttpStatus.OK)
     public ResponseEntity<?> login(@Valid @RequestBody LoginDTO body) throws Exception {
@@ -42,6 +46,7 @@ public class UsersController {
                 UserDTO userDTO = this.usersService.mapTo(user);
                 userDTO = this.jwtService.getToken(userDTO);
                 userDTO.setLastLogin(LocalDateTime.now());
+                userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
                 return ResponseEntity.ok(userDTO);
             } else {
                 throw new UserInactiveException("Usuario con email y/o password inactivo");
@@ -57,7 +62,9 @@ public class UsersController {
         User user = this.usersService.mapTo(body);
         if (this.usersService.findByEmail(user.getEmail()) == null) {
             user = this.usersService.save(user);
-            return ResponseEntity.ok(user);
+            UserDTO response = this.usersService.mapTo(user);
+            response.setPassword(passwordEncoder.encode(response.getPassword()));
+            return ResponseEntity.ok(response);
         } else {
             throw new UserExistsException("Usuario con email existente");
         }
