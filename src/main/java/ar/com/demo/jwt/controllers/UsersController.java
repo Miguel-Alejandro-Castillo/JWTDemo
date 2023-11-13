@@ -1,9 +1,6 @@
 package ar.com.demo.jwt.controllers;
 
-import ar.com.demo.jwt.dto.DetailErrorDTO;
-import ar.com.demo.jwt.dto.ErrorDTO;
-import ar.com.demo.jwt.dto.LoginDTO;
-import ar.com.demo.jwt.dto.UserDTO;
+import ar.com.demo.jwt.dto.*;
 import ar.com.demo.jwt.exceptions.ErrorCustomException;
 import ar.com.demo.jwt.exceptions.UserExistsException;
 import ar.com.demo.jwt.exceptions.UserInactiveException;
@@ -64,12 +61,13 @@ public class UsersController {
         User user = this.usersService.mapTo(body);
         if (this.usersService.findByEmail(user.getEmail()) == null) {
             user = this.usersService.save(user);
-            UserDTO response = this.usersService.mapTo(user);
+            UserDTO userDTO = this.usersService.mapTo(user);
             //response = this.jwtService.getToken(response);
-            String token = this.jwtService.createToken(response);
-            response.setToken(token);
-            response.setPassword(passwordEncoder.encode(response.getPassword()));
-            return ResponseEntity.ok(response);
+            String token = this.jwtService.createToken(userDTO);
+            TokenDTO tokenDTO = new TokenDTO();
+            tokenDTO.setToken(token);
+            //response.setPassword(passwordEncoder.encode(response.getPassword()));
+            return ResponseEntity.ok(tokenDTO);
         } else {
             throw new UserExistsException("Usuario con email existente");
         }
