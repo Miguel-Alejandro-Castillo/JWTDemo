@@ -71,37 +71,6 @@ public class UsersController {
         } else {
             throw new UserExistsException("Usuario con email existente");
         }
-
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({UserExistsException.class, UserInactiveException.class, UserNotExistsException.class})
-    public ErrorDTO handleOtherValidationExceptions(ErrorCustomException ex) {
-        DetailErrorDTO detailErrorDTO = new DetailErrorDTO();
-        detailErrorDTO.setDetail(ex.getMessage());
-        detailErrorDTO.setCodigo(ex.getCode());
-        detailErrorDTO.setTimestamp(new Timestamp(System.currentTimeMillis()));
-        List<DetailErrorDTO> details = new ArrayList<>();
-        details.add(detailErrorDTO);
-        ErrorDTO errorDTO = new ErrorDTO();
-        errorDTO.setError(details);
-        return errorDTO;
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ErrorDTO handleValidationExceptions(MethodArgumentNotValidException ex) {
-        List<DetailErrorDTO> details = new ArrayList<>();
-        ex.getBindingResult().getFieldErrors().forEach(err -> {
-            DetailErrorDTO detailErrorDTO = new DetailErrorDTO();
-            detailErrorDTO.setDetail(err.getDefaultMessage());
-            detailErrorDTO.setCodigo(1);
-            detailErrorDTO.setTimestamp(new Timestamp(System.currentTimeMillis()));
-            details.add(detailErrorDTO);
-        });
-        ErrorDTO errorDTO = new ErrorDTO();
-        errorDTO.setError(details);
-        return errorDTO;
     }
 
 }
